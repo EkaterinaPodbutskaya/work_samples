@@ -1,4 +1,4 @@
---пример с рассылкой в excel 
+--пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ excel 
 
 declare @cols as nvarchar(max) = N'';
 declare @query as nvarchar(max) = N'';
@@ -11,7 +11,7 @@ select  @cols = substring(@cols, 0, len(@cols));
 
 set @query
   = N'SELECT *  from 
-(select [Дата окончания поставки],dt,divide from [ofd].test_table) src
+(select [пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ],dt,divide from [ofd].test_table) src
 pivot (max(divide) for dt in (' + @cols + N')) piv';
 
 exec (@query);
@@ -25,11 +25,11 @@ from    ( select  distinct dt
  --https://learn.microsoft.com/ru-ru/sql/t-sql/language-elements/variables-transact-sql?view=sql-server-ver16
  --https://stackoverflow.com/questions/55354932/sql-calculate-column-with-dynamic-pivot-queries
  declare @int as int ='5'
- --можно присвоить значение переменной конструкцией set или select
+ --пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ set пїЅпїЅпїЅ select
  select @int = '27'
  select @int
 
-----Рассылка писем
+----пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 declare @d as varchar(20) = cast(cast(getdate() - 1 as date) as varchar(10));
 
 declare @file as varchar(1024) = '\\dwh\Buffer\' + @d + '.xlsx';
@@ -38,5 +38,5 @@ exec InstanceMaintenanceDB..pc_to_excel @xls_q, @file;
 
 execute msdb.dbo.sp_send_dbmail @profile_name = 'mail profile',
                                 @recipients = '...@kontur.ru',
-                                @body = 'Сообщение было создано автоматически',
+                                @body = 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
                                 @file_attachments = @file;
