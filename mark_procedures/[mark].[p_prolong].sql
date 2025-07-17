@@ -6,7 +6,7 @@ ALTER procedure [marking].[p_prolong]
 as
 begin
 
---все поставки 
+--РІСЃРµ РїРѕСЃС‚Р°РІРєРё 
 drop table if exists #t;
 select distinct cID, agentId, bID, tarif_name, Since, UpTo
   into #t
@@ -14,12 +14,12 @@ select distinct cID, agentId, bID, tarif_name, Since, UpTo
    and is_real     = 1;
 
    
---доп инфа 
+--РґРѕРї РёРЅС„Р° 
 drop table if exists #fas;
 select distinct c.inn, isnull(c.kpp, '') kpp, b.Num, t.tarif_name, t.Since, t.UpTo, b.BDate, 
 				case
-					when t.tarif_name like 'Базовый%' then 'Базовый'
-					when t.tarif_name like 'Модуль %' then 'Модуль'
+					when t.tarif_name like 'Р‘Р°Р·РѕРІС‹Р№%' then 'Р‘Р°Р·РѕРІС‹Р№'
+					when t.tarif_name like 'РњРѕРґСѓР»СЊ %' then 'РњРѕРґСѓР»СЊ'
 				end tar
   into #fas
   from #t              t
@@ -28,7 +28,7 @@ select distinct c.inn, isnull(c.kpp, '') kpp, b.Num, t.tarif_name, t.Since, t.Up
 
 		
 
---выстраивание последовательности поставок
+--РІС‹СЃС‚СЂР°РёРІР°РЅРёРµ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё РїРѕСЃС‚Р°РІРѕРє
 drop table if exists #new_prolong;
 with cte
   as (select *, row_number() over (partition by inn, tar order by Since) s
@@ -41,10 +41,10 @@ select     c.inn,
            c.UpTo ,
            iif(t.s is not null and datediff(dd, c.UpTo, t.Since) < 180, 1, 0) prolong,
            datediff(dd, c.UpTo, t.Since)                                      defer,
-           t.Num                                                              [продляющий счет],
-		   t.tarif_name														  [тариф продления],
-           t.BDate                                                            [дата выставления счета на продление],
-           t.Since                                                            [дата начала поставки-продления],
+           t.Num                                                              [РїСЂРѕРґР»СЏСЋС‰РёР№ СЃС‡РµС‚],
+		   t.tarif_name														  [С‚Р°СЂРёС„ РїСЂРѕРґР»РµРЅРёСЏ],
+           t.BDate                                                            [РґР°С‚Р° РІС‹СЃС‚Р°РІР»РµРЅРёСЏ СЃС‡РµС‚Р° РЅР° РїСЂРѕРґР»РµРЅРёРµ],
+           t.Since                                                            [РґР°С‚Р° РЅР°С‡Р°Р»Р° РїРѕСЃС‚Р°РІРєРё-РїСЂРѕРґР»РµРЅРёСЏ],
 		   c.tar
   into      #new_prolong
   from      cte c
@@ -61,27 +61,27 @@ select inn,
        UpTo	 ,
        prolong,
        defer,
-       iif(prolong = 0, null, [продляющий счет])                     [продляющий счет],
-	   iif([тариф продления] is null, '', [тариф продления])		 [тариф продления],
-       iif(prolong = 0, null, [дата выставления счета на продление]) [дата выставления счета на продление],
-       iif(prolong = 0, null, [дата начала поставки-продления])      [дата начала поставки-продления],
+       iif(prolong = 0, null, [РїСЂРѕРґР»СЏСЋС‰РёР№ СЃС‡РµС‚])                     [РїСЂРѕРґР»СЏСЋС‰РёР№ СЃС‡РµС‚],
+	   iif([С‚Р°СЂРёС„ РїСЂРѕРґР»РµРЅРёСЏ] is null, '', [С‚Р°СЂРёС„ РїСЂРѕРґР»РµРЅРёСЏ])		 [С‚Р°СЂРёС„ РїСЂРѕРґР»РµРЅРёСЏ],
+       iif(prolong = 0, null, [РґР°С‚Р° РІС‹СЃС‚Р°РІР»РµРЅРёСЏ СЃС‡РµС‚Р° РЅР° РїСЂРѕРґР»РµРЅРёРµ]) [РґР°С‚Р° РІС‹СЃС‚Р°РІР»РµРЅРёСЏ СЃС‡РµС‚Р° РЅР° РїСЂРѕРґР»РµРЅРёРµ],
+       iif(prolong = 0, null, [РґР°С‚Р° РЅР°С‡Р°Р»Р° РїРѕСЃС‚Р°РІРєРё-РїСЂРѕРґР»РµРЅРёСЏ])      [РґР°С‚Р° РЅР°С‡Р°Р»Р° РїРѕСЃС‚Р°РІРєРё-РїСЂРѕРґР»РµРЅРёСЏ],
 	   tar
   into #new_5
   from #new_prolong
  order by defer desc;
 
 
---где-то в отчете по выручке ошибка в определении сегмента счета
---костыль исправляет недочет
+--РіРґРµ-С‚Рѕ РІ РѕС‚С‡РµС‚Рµ РїРѕ РІС‹СЂСѓС‡РєРµ РѕС€РёР±РєР° РІ РѕРїСЂРµРґРµР»РµРЅРёРё СЃРµРіРјРµРЅС‚Р° СЃС‡РµС‚Р°
+--РєРѕСЃС‚С‹Р»СЊ РёСЃРїСЂР°РІР»СЏРµС‚ РЅРµРґРѕС‡РµС‚
 update product.mark.all_revenue
-   set revenueT = 'продление'
+   set revenueT = 'РїСЂРѕРґР»РµРЅРёРµ'
  where num in ( select r.num
                   from product.mark.all_revenue r
-                  join #new_5              n on n.[продляющий счет] = r.num
-                 where r.revenueT = 'подключение');
+                  join #new_5              n on n.[РїСЂРѕРґР»СЏСЋС‰РёР№ СЃС‡РµС‚] = r.num
+                 where r.revenueT = 'РїРѕРґРєР»СЋС‡РµРЅРёРµ');
 
 
---данные по отказу от предолжения
+--РґР°РЅРЅС‹Рµ РїРѕ РѕС‚РєР°Р·Сѓ РѕС‚ РїСЂРµРґРѕР»Р¶РµРЅРёСЏ
 drop table if exists  #new_6;
 select distinct n.inn, 
                 first_value(Allo.RejectReason) over (partition by n.inn order by Allo.rejectdate desc)RejectReason
@@ -93,9 +93,9 @@ into #new_6
  where prolong = 0;
 
 
- --итоговая
+ --РёС‚РѕРіРѕРІР°СЏ
 drop table if exists #new_8;
-select distinct year(dateadd(dd, 1, UpTo)) [год продления], month(dateadd(dd, 1, UpTo)) [месяц продления], n.*, ifi.stts, w.RejectReason, getdate() date_load
+select distinct year(dateadd(dd, 1, UpTo)) [РіРѕРґ РїСЂРѕРґР»РµРЅРёСЏ], month(dateadd(dd, 1, UpTo)) [РјРµСЃСЏС† РїСЂРѕРґР»РµРЅРёСЏ], n.*, ifi.stts, w.RejectReason, getdate() date_load
 into #new_8
   from #new_5 n
   left join #new_6 w on w.inn=n.inn
@@ -103,21 +103,21 @@ into #new_8
  order by year(dateadd(dd, 1, UpTo)), month(dateadd(dd, 1, UpTo));
 
 
---потенциальная роль маркировки по сведениям о карточке
+--РїРѕС‚РµРЅС†РёР°Р»СЊРЅР°СЏ СЂРѕР»СЊ РјР°СЂРєРёСЂРѕРІРєРё РїРѕ СЃРІРµРґРµРЅРёСЏРј Рѕ РєР°СЂС‚РѕС‡РєРµ
 drop table if exists #inncom;
 select distinct allo.inn,  case
-								when left(a.Description, charindex('Кто клиенты:',a.Description) +1) like'%производ%' then 'Производитель' 
-								when left(a.Description, charindex('Кто клиенты:',a.Description) +1) like'%опт%'	  then 'Оптовик'
-								when left(a.Description, charindex('Кто клиенты:',a.Description) +1) like'%розн%'	  then 'Розница'
-								when left(a.Description, charindex('Кто клиенты:',a.Description) +1) like'%импорт%'	  then 'Импорт'
+								when left(a.Description, charindex('РљС‚Рѕ РєР»РёРµРЅС‚С‹:',a.Description) +1) like'%РїСЂРѕРёР·РІРѕРґ%' then 'РџСЂРѕРёР·РІРѕРґРёС‚РµР»СЊ' 
+								when left(a.Description, charindex('РљС‚Рѕ РєР»РёРµРЅС‚С‹:',a.Description) +1) like'%РѕРїС‚%'	  then 'РћРїС‚РѕРІРёРє'
+								when left(a.Description, charindex('РљС‚Рѕ РєР»РёРµРЅС‚С‹:',a.Description) +1) like'%СЂРѕР·РЅ%'	  then 'Р РѕР·РЅРёС†Р°'
+								when left(a.Description, charindex('РљС‚Рѕ РєР»РёРµРЅС‚С‹:',a.Description) +1) like'%РёРјРїРѕСЂС‚%'	  then 'РРјРїРѕСЂС‚'
 						    end role_mkvk
  into #inncom
 	from  CRM_DB.dbo.AllOffer               Allo 
 	join [CRM_DB].[dbo].[Active] a on a.id=allo.ActivityId
-	where (left(a.Description, charindex('Кто клиенты:',a.Description) +1) like'%производ%' 			
-		or left(a.Description, charindex('Кто клиенты:',a.Description) +1) like'%опт%'
-		or left(a.Description, charindex('Кто клиенты:',a.Description) +1) like'%розн%'	   
-		or left(a.Description, charindex('Кто клиенты:',a.Description) +1) like'%импорт%')
+	where (left(a.Description, charindex('РљС‚Рѕ РєР»РёРµРЅС‚С‹:',a.Description) +1) like'%РїСЂРѕРёР·РІРѕРґ%' 			
+		or left(a.Description, charindex('РљС‚Рѕ РєР»РёРµРЅС‚С‹:',a.Description) +1) like'%РѕРїС‚%'
+		or left(a.Description, charindex('РљС‚Рѕ РєР»РёРµРЅС‚С‹:',a.Description) +1) like'%СЂРѕР·РЅ%'	   
+		or left(a.Description, charindex('РљС‚Рѕ РєР»РёРµРЅС‚С‹:',a.Description) +1) like'%РёРјРїРѕСЂС‚%')
 		and inn in (select inn from #new_8);
 
 
@@ -128,7 +128,7 @@ select inn, string_agg(role_mkvk, '; ') role_mkvk
  group by inn;
 
 
- --деньги по строкам
+ --РґРµРЅСЊРіРё РїРѕ СЃС‚СЂРѕРєР°Рј
  drop table if exists #summa
  select num, cbc.TariffName, sum(Payed) Payed 
  into #summa
@@ -137,37 +137,37 @@ select inn, string_agg(role_mkvk, '; ') role_mkvk
  GROUP BY cbc.Num, cbc.TariffName
 
 
--- вывод для отчета
+-- РІС‹РІРѕРґ РґР»СЏ РѕС‚С‡РµС‚Р°
 begin transaction;
 truncate table product.mark.prolong;
-insert into product.mark.prolong( [год продления]
-												,[месяц продления]
-												,[инн	]
-												,[кпп	]
-												,[потенциальная роль ]
-												,[тг]
-												,[счет	]
-												,[сумма за тариф] 
-												,[СЦ	]
-												,[тариф поставки]
-												,[начало поставки	]
-												,[окончание поставки]	
-												,[признак продления	]
-												,[разница между основной и продляющей поставкой в днях	]
-												,[тариф продления]
-												,[продляющий счет]
-												,[дата выставления счета на продление]
-												,[разница дат выставления и оплаты счета на продление]
-												,[дата начала поставки-продления]
-												,[статус по фокусу	]
-												,[причина отказа (если была)	]
+insert into product.mark.prolong( [РіРѕРґ РїСЂРѕРґР»РµРЅРёСЏ]
+												,[РјРµСЃСЏС† РїСЂРѕРґР»РµРЅРёСЏ]
+												,[РёРЅРЅ	]
+												,[РєРїРї	]
+												,[РїРѕС‚РµРЅС†РёР°Р»СЊРЅР°СЏ СЂРѕР»СЊ ]
+												,[С‚Рі]
+												,[СЃС‡РµС‚	]
+												,[СЃСѓРјРјР° Р·Р° С‚Р°СЂРёС„] 
+												,[РЎР¦	]
+												,[С‚Р°СЂРёС„ РїРѕСЃС‚Р°РІРєРё]
+												,[РЅР°С‡Р°Р»Рѕ РїРѕСЃС‚Р°РІРєРё	]
+												,[РѕРєРѕРЅС‡Р°РЅРёРµ РїРѕСЃС‚Р°РІРєРё]	
+												,[РїСЂРёР·РЅР°Рє РїСЂРѕРґР»РµРЅРёСЏ	]
+												,[СЂР°Р·РЅРёС†Р° РјРµР¶РґСѓ РѕСЃРЅРѕРІРЅРѕР№ Рё РїСЂРѕРґР»СЏСЋС‰РµР№ РїРѕСЃС‚Р°РІРєРѕР№ РІ РґРЅСЏС…	]
+												,[С‚Р°СЂРёС„ РїСЂРѕРґР»РµРЅРёСЏ]
+												,[РїСЂРѕРґР»СЏСЋС‰РёР№ СЃС‡РµС‚]
+												,[РґР°С‚Р° РІС‹СЃС‚Р°РІР»РµРЅРёСЏ СЃС‡РµС‚Р° РЅР° РїСЂРѕРґР»РµРЅРёРµ]
+												,[СЂР°Р·РЅРёС†Р° РґР°С‚ РІС‹СЃС‚Р°РІР»РµРЅРёСЏ Рё РѕРїР»Р°С‚С‹ СЃС‡РµС‚Р° РЅР° РїСЂРѕРґР»РµРЅРёРµ]
+												,[РґР°С‚Р° РЅР°С‡Р°Р»Р° РїРѕСЃС‚Р°РІРєРё-РїСЂРѕРґР»РµРЅРёСЏ]
+												,[СЃС‚Р°С‚СѓСЃ РїРѕ С„РѕРєСѓСЃСѓ	]
+												,[РїСЂРёС‡РёРЅР° РѕС‚РєР°Р·Р° (РµСЃР»Рё Р±С‹Р»Р°)	]
 												,date_load)
-select distinct t.[год продления],
-                t.[месяц продления],
+select distinct t.[РіРѕРґ РїСЂРѕРґР»РµРЅРёСЏ],
+                t.[РјРµСЃСЏС† РїСЂРѕРґР»РµРЅРёСЏ],
                 t.inn			,
                 t.kpp			,
-				isnull(a.role_mkvk, '') [потенциальная роль МК],
-				iif(s.segment = 'нераспределен' or s.segment is null, isnull(w.fr, ''), s.segment) tg,
+				isnull(a.role_mkvk, '') [РїРѕС‚РµРЅС†РёР°Р»СЊРЅР°СЏ СЂРѕР»СЊ РњРљ],
+				iif(s.segment = 'РЅРµСЂР°СЃРїСЂРµРґРµР»РµРЅ' or s.segment is null, isnull(w.fr, ''), s.segment) tg,
                 t.Num			,
 				m.Payed,
 				cbc.code		,
@@ -176,17 +176,17 @@ select distinct t.[год продления],
                 t.UpTo			,
                 t.prolong		,
                 t.defer			,
-				[тариф продления],
-                t.[продляющий счет],
-                t.[дата выставления счета на продление],
-				datediff(dd, t.[дата выставления счета на продление], r.PayDate)[разница дат выставления и оплаты счета на продление],
-                t.[дата начала поставки-продления],
+				[С‚Р°СЂРёС„ РїСЂРѕРґР»РµРЅРёСЏ],
+                t.[РїСЂРѕРґР»СЏСЋС‰РёР№ СЃС‡РµС‚],
+                t.[РґР°С‚Р° РІС‹СЃС‚Р°РІР»РµРЅРёСЏ СЃС‡РµС‚Р° РЅР° РїСЂРѕРґР»РµРЅРёРµ],
+				datediff(dd, t.[РґР°С‚Р° РІС‹СЃС‚Р°РІР»РµРЅРёСЏ СЃС‡РµС‚Р° РЅР° РїСЂРѕРґР»РµРЅРёРµ], r.PayDate)[СЂР°Р·РЅРёС†Р° РґР°С‚ РІС‹СЃС‚Р°РІР»РµРЅРёСЏ Рё РѕРїР»Р°С‚С‹ СЃС‡РµС‚Р° РЅР° РїСЂРѕРґР»РµРЅРёРµ],
+                t.[РґР°С‚Р° РЅР°С‡Р°Р»Р° РїРѕСЃС‚Р°РІРєРё-РїСЂРѕРґР»РµРЅРёСЏ],
                 t.stts          ,
                 t.RejectReason  ,
                 t.date_load	
 	from  #new_8 t
 	join dbo.bill_contents cbc on cbc.num=t.num
-	left join  product.mark.all_revenue r on r.num=t.[продляющий счет]
+	left join  product.mark.all_revenue r on r.num=t.[РїСЂРѕРґР»СЏСЋС‰РёР№ СЃС‡РµС‚]
 	left join product.mark.segmentations s on s.inn  = t.inn
 	left join product.mark.all_categories   w on w.inn  = t.inn
 	left join #role_s a on a.inn=t.inn
