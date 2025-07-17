@@ -39,8 +39,8 @@ var products = spark
     .drop($"content.products")
     .filter(($"content.calculationType" === "Sell") && ($"type" === "Receipt"))
     .withColumn("nameLower", lower($"product.name"))
-    .withColumn("skuCategory", when($"nameLower".rlike("acuvu|à[êk]óâ.?[þó]") && $"nameLower".rlike("revit|ðåâèò"), "ACUVUE® RevitaLens")
-                              .when($"nameLower".rlike("acuvu|à[êk]óâ.?[þó]") && !$"nameLower".rlike("revit|ðåâèò"), "ACUVUE®")
+    .withColumn("skuCategory", when($"nameLower".rlike("acuvu|Ð°[Ðºk]ÑƒÐ².?[ÑŽÑƒ]") && $"nameLower".rlike("revit|Ñ€ÐµÐ²Ð¸Ñ‚"), "ACUVUEÂ® RevitaLens")
+                              .when($"nameLower".rlike("acuvu|Ð°[Ðºk]ÑƒÐ².?[ÑŽÑƒ]") && !$"nameLower".rlike("revit|Ñ€ÐµÐ²Ð¸Ñ‚"), "ACUVUEÂ®")
                               .otherwise(null))
     .filter("skuCategory IS NOT NULL")
     // join address

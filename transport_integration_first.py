@@ -7,7 +7,7 @@ def select_hdfs_file(hdfs_path):
     while files.hasNext():
         file = f'{files.next().getPath()}'
         if '_SUCCESS' not in f'{file}':
-            print(f"В HDFS выбран файл '{file}'")
+            print(f"Р’ HDFS РІС‹Р±СЂР°РЅ С„Р°Р№Р» '{file}'")
             return file
 
 def load_from_hdfs(hdfs_path):
@@ -36,21 +36,21 @@ def upload_to_drive2(drive_client, drive_name, content):
         try:
             drive_client.partial_upload_content(partial_upload_id, content_range_bytes, content_range_start, content_total_size)
         except Exception as exception:
-            print(f"Загрузка '{drive_name}': участок [{content_range_start}:{content_range_end}] не удалось загрузить с {attempt} из {ATTEMTS_COUNT} попытки: {exception}")
+            print(f"Р—Р°РіСЂСѓР·РєР° '{drive_name}': СѓС‡Р°СЃС‚РѕРє [{content_range_start}:{content_range_end}] РЅРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РіСЂСѓР·РёС‚СЊ СЃ {attempt} РёР· {ATTEMTS_COUNT} РїРѕРїС‹С‚РєРё: {exception}")
         else:
-            print(f"Загрузка '{drive_name}': участок [{content_range_start}:{content_range_end}] загружен с {attempt} из {ATTEMTS_COUNT} попытки")
+            print(f"Р—Р°РіСЂСѓР·РєР° '{drive_name}': СѓС‡Р°СЃС‚РѕРє [{content_range_start}:{content_range_end}] Р·Р°РіСЂСѓР¶РµРЅ СЃ {attempt} РёР· {ATTEMTS_COUNT} РїРѕРїС‹С‚РєРё")
             break
 
 def load_from_hdfs_to_drive(hdfs_paths, drive_name, drive2_link, archive_password):
     local_paths = [load_from_hdfs(hdfs_path) for hdfs_path in hdfs_paths]
-    print(f"Файлы {hdfs_paths} загружены из HDFS в локальную ФС: {local_paths}")
+    print(f"Р¤Р°Р№Р»С‹ {hdfs_paths} Р·Р°РіСЂСѓР¶РµРЅС‹ РёР· HDFS РІ Р»РѕРєР°Р»СЊРЅСѓСЋ Р¤РЎ: {local_paths}")
 
     from py7zr import SevenZipFile
     local_path_7z = 'tmp/test.7z'
     with SevenZipFile(local_path_7z, 'w', password=f'{drive_pwd}') as archive:
         for local_path in local_paths:
             archive.write(local_path)
-    print(f"Создан 7z-архив '{local_path_7z}'")
+    print(f"РЎРѕР·РґР°РЅ 7z-Р°СЂС…РёРІ '{local_path_7z}'")
 
     drive_client = get_drive_client()
 
@@ -63,7 +63,7 @@ def load_from_hdfs_to_drive(hdfs_paths, drive_name, drive2_link, archive_passwor
         os.remove(local_path)
     os.remove(local_path_7z)
 
-    print(f"Файлы {hdfs_paths} были загружены из HDFS в Drive по пути '{drive_name}'. Можно скачать по ссылке '{public_link}', пароль от архива '{archive_password}'")
+    print(f"Р¤Р°Р№Р»С‹ {hdfs_paths} Р±С‹Р»Рё Р·Р°РіСЂСѓР¶РµРЅС‹ РёР· HDFS РІ Drive РїРѕ РїСѓС‚Рё '{drive_name}'. РњРѕР¶РЅРѕ СЃРєР°С‡Р°С‚СЊ РїРѕ СЃСЃС‹Р»РєРµ '{public_link}', РїР°СЂРѕР»СЊ РѕС‚ Р°СЂС…РёРІР° '{archive_password}'")
 
     return public_link
 
