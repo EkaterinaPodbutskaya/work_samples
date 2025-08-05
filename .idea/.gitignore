@@ -1,3 +1,7 @@
-# Default ignored files
-/shelf/
-/workspace.xml
+.idea/
+!.idea/codeStyles
+!.idea/inspectionProfiles
+!.idea/fileTemplates
+.idea/dataSources/
+.idea/dataSources.local.xml
+.idea/sqlDialects.xml
