@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2ff3ac26-58fd-4fb2-8454-f9c4c7fe2cf5" name="Changes" comment="chore: remove PyCharm database metadata from Git">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/cf3ecb3d-6942-4c62-b087-4bb4050eda40/storage_v2/_src_/database/northwind.je5zGg/schema/first_schema.EPpgAw.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/cf3ecb3d-6942-4c62-b087-4bb4050eda40/storage_v2/_src_/database/northwind.je5zGg/schema/first_schema.EPpgAw.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/cf3ecb3d-6942-4c62-b087-4bb4050eda40/storage_v2/_src_/database/northwind.je5zGg/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/cf3ecb3d-6942-4c62-b087-4bb4050eda40/storage_v2/_src_/database/northwind.je5zGg/schema/public.abK9xQ.meta" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4
+}]]></component>
+  <component name="ProjectId" id="30u44LWwzx2XnDFlGQ09f3Pi6q2" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "ToolWindow.Services.ShowToolbar": "false",
+    "database.data.extractors.current.export.id": "Where Clause",
+    "database.data.extractors.current.id": "Where Clause",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-PY-251.26927.90" />
+        <option value="bundled-python-sdk-41e8cd69c857-64d779b69b7a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26927.90" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task id="LOCAL-00001" summary="chore: remove PyCharm database metadata from Git">
+      <option name="closed" value="true" />
+      <created>1754417005799</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1754417005799</updated>
+    </task>
+    <task id="LOCAL-00002" summary="chore: remove PyCharm database metadata from Git">
+      <option name="closed" value="true" />
+      <created>1754417150569</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1754417150569</updated>
+    </task>
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2ff3ac26-58fd-4fb2-8454-f9c4c7fe2cf5" name="Changes" comment="chore: remove PyCharm database metadata from Git" />
+      <created>1754463934332</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1754463934332</updated>
+      <workItem from="1754463936772" duration="3750000" />
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="chore: remove PyCharm database metadata from Git" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: remove PyCharm database metadata from Git" />
+  </component>
+</project>

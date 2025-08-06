@@ -16,11 +16,11 @@
             </node>
             <node kind="database" qname="northwind">
               <node kind="schema">
-                <name qname="@" />
-                <name qname="public" />
                 <name qname="first_schema" />
+                <name qname="public" />
               </node>
             </node>
+            <node kind="database" qname="postgres" />
           </node>
         </introspection-scope>
       </schema-mapping>
