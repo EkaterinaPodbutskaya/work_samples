@@ -57,7 +57,7 @@ cheques = (spark.read.parquet("/data/OfdCheques/date=2023.07.{22,23,24,25,26,27,
 
 
 cashboxParsedAddres = (spark.read.format('com.mongodb.spark.sql.DefaultSource')
-                            .option('uri', f'mongodb://{mongo_cd.login}:{mongo_cd.pwd}@mp-park/Content.CashboxParsed?authSource=admin')
+                            .option('uri', f'mongodb://{mongo_cd.login}:{mongo_cd.pwd}@host/Content.CashboxParsed?authSource=admin')
                             .load()
                             .filter(col("cashboxId.fromTime") <= "2023-07-22")
                             .withColumn("AddressCandidate", col("AddressCandidates").getItem(0))
